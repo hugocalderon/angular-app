@@ -51,26 +51,15 @@ export class ArticleComponent implements OnInit {
         this.preProcessConfigurations();
         let article = this.articleForm.value;
         if (this.articleIdToUpdate === null) {
-            //Generate article id then create article
-            this.articleService.getAllArticles()
-                .subscribe(articles => {
-
-                    //Generate article id
-                    let maxIndex = articles.length - 1;
-                    let articleWithMaxIndex = articles[maxIndex];
-                    let articleId = articleWithMaxIndex.id + 1;
-                    article.id = articleId;
-                    console.log(article, 'this is form data---');
-                    //Create article
-                    this.articleService.createArticle(article)
-                        .subscribe(successCode => {
-                                this.statusCode = successCode;
-                                this.getAllArticles();
-                                this.backToCreateArticle();
-                            },
-                            errorCode => this.statusCode = errorCode
-                        );
-                });
+            //Create article
+            this.articleService.createArticle(article)
+                .subscribe(successCode => {
+                        this.statusCode = successCode;
+                        this.getAllArticles();
+                        this.backToCreateArticle();
+                    },
+                    errorCode => this.statusCode = errorCode
+                );
         } else {
             //Handle update article
             article.id = this.articleIdToUpdate;
